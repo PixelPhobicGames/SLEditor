@@ -20,4 +20,4 @@
   endif
 
   all: $(TARGET)
-	  $(CC) SLEditor\.cpp -o $(exename) $(CFLAGS)
+	  $(CC) SLEditor.cpp -o $(exename) $(CFLAGS)
