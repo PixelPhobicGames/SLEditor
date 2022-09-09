@@ -11,7 +11,7 @@
   ifeq ($(PLATFORM),windows)
     CC = C:\raylib\mingw\bin\g++.exe
     exename ?= SLEditor.exe
-    CFLAGS  = -static -Os -Wall -Iexternal -DPLATFORM_DESKTOP -lopengl32 -lraylib -lgdi32 -lwinmm -Wl,--subsystem,windows
+    CFLAGS  = -static -Os -Wall -Iexternal -DPLATFORM_DESKTOP -lopengl32 -lraylib -lgdi32 -lwinmm 
   endif
   ifeq ($(PLATFORM),linux)
     CC = g++
