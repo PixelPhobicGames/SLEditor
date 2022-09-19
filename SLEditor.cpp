@@ -4,11 +4,16 @@
 
 int main(int argc, char *argv[]){
 
-	InitWindow(1280 , 720 , "SLEditor v.1");
+	InitWindow(1280 , 720 , "SLEditor");
 	SetTargetFPS(60);
 	EditorInit();
 
-	LevelData = LoadFile(argv[1]);
+	if (argc != 2){
+		LevelData = LoadFile("C:/Editor/Blank/TileData.pak");
+	}
+	else {
+		LevelData = LoadFile(argv[1]);
+	}
 
 	for ( int i = 0 ; i <= LevelData.size(); i ++){
 		if (LevelData[i] == L'|'){
