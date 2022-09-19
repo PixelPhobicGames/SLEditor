@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <fstream>
 #include <raylib.h>
 
 static Color ProGray = {33,33,33,255};
@@ -13,6 +15,7 @@ static Vector2 WindowDimesions[10];
 
 static bool DraggingWindow = false;
 
+using namespace std;
 
 bool GetCollision(int x, int y , int w, int h, int x2 , int y2 , int w2 , int h2){
     if( y+h <= y2 )
@@ -94,7 +97,7 @@ bool CreateCustomButton( float PosX , float PosY, float Size , const char *Text 
     }
 
 
-    if (IsMouseButtonDown(0) && GetCollision(X , Y , Size * 180 , Size * 100 , GetMouseX() , GetMouseY() , 5 , 5 )){
+    if (IsMouseButtonDown(0) && GetCollision(X , Y , Size * 100 , Size * 100 , GetMouseX() , GetMouseY() , 5 , 5 )){
         return true;
     }
     else {
