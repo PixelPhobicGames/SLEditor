@@ -1,9 +1,12 @@
 #include "Gui.hpp"
 
+#define Linux
+
+
 
 static wstring LevelData;
 
-static int TileSize = 240;
+static float TileSize = 240;
 
 static int WorldWidth = 0;
 static int WorldHeight = 0;
@@ -17,8 +20,8 @@ static wchar_t EditorTile = L'1';
 static int Delay = 0;
 
 
-static int CameraX = 0;
-static int CameraY = 0;
+static float CameraX = 0;
+static float CameraY = 0;
 
 static int PenMode = 1;
 
@@ -26,6 +29,8 @@ static int RectPenOldX = 0;
 static int RectPenOldY = 0;
 
 static int RectPenSelect = false;
+
+static bool CopyProtection = true;
 
 class Tiles{
     public:
@@ -140,7 +145,12 @@ auto PullConfigValue(const char *Path , int ValueIndex){
 
 
 void EditorInit(){
-    EditorData.EditorFont = LoadFont("C:/Editor/Fonts/TekoRegular.ttf");
+    #ifdef Windows 
+        EditorData.EditorFont = LoadFont("C:/Editor/Fonts/TekoRegular.ttf");
+    #endif
+    #ifdef Linux
+        EditorData.EditorFont = LoadFont("/home/ewan/Editor/Fonts/TekoRegular.ttf");
+    #endif
 
     for (int i = 0 ; i <= 9 ; i ++){
         WindowPos[i].x = 500;
@@ -182,7 +192,13 @@ void EditorLoadTiles(char LevelDir[200]){
     EditorTiles.Tile7 = LoadTexture(FormatText("%sTiles/Tile7.png" , LevelDir));
     EditorTiles.Tile8 = LoadTexture(FormatText("%sTiles/Tile8.png" , LevelDir));
     EditorTiles.Tile9 = LoadTexture(FormatText("%sTiles/Tile9.png" , LevelDir));
-    EditorTiles.Background0 = LoadTexture("C:/Editor/Assets/Test.png");
+
+    #ifdef Windows 
+        EditorTiles.Background0 = LoadTexture("C:/Editor/Assets/Test.png");
+    #endif
+    #ifdef Linux
+        EditorTiles.Background0 = LoadTexture("/home/ewan/Editor/Assets/Test.png");
+    #endif
     TileSize = PullConfigValue(FormatText("%sConfig/TileSize.slconf",LevelDir) , 0);
     BackgroundCount = PullConfigValue(FormatText("%sConfig/Background.slconf",LevelDir), 0);
 

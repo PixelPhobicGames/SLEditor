@@ -9,7 +9,12 @@ int main(int argc, char *argv[]){
 	EditorInit();
 
 	if (argc != 2){
+		#ifdef Windows
 		LevelData = LoadFile("C:/Editor/Blank/TileData.pak");
+		#endif
+		#ifdef Linux
+		LevelData = LoadFile("/home/ewan/Editor/Blank/TileData.pak");
+		#endif
 	}
 	else {
 		LevelData = LoadFile(argv[1]);
@@ -35,11 +40,12 @@ int main(int argc, char *argv[]){
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
+		if (CopyProtection){
 		if (Delay == 0){
 			ClearBackground(ProGray);
 
 			DrawRectangle(0,0,1280,30,DARKGRAY);
-			DrawTextEx(EditorData.EditorFont, "SLEditor", {10 , 8}, 18, 2, WHITE);
+			DrawTextEx(EditorData.EditorFont, "SLEditor - Beta", {10 , 8}, 18, 2, WHITE);
 
 			if (IsKeyDown(KEY_W))CameraY ++;
 			if (IsKeyDown(KEY_S))CameraY --;
@@ -75,6 +81,7 @@ int main(int argc, char *argv[]){
 					DrawTextEx(EditorData.EditorFont, "World Editor", {1280 / 2 - MeasureTextEx(EditorData.EditorFont, "WorldEditor" , 18 , 2).x / 2, 8}, 18, 2, WHITE);
 
 					if (CreateBlankWindow(2 , 1 , "Editor")){
+						
 						DrawTexture(EditorTiles.Background0 , WindowPos[1].x,WindowPos[1].y + 35,WHITE);
 						for (int x = CameraX / (TileSize / 2 - 1); x <= CameraX / (TileSize / 2 ) + WindowDimesions[1].x / (TileSize / 2) ; x++){
 							for (int y =  (CameraY / (TileSize / 2) - 1) * -1; y <= -1 * (CameraY / (TileSize / 2) ) + WindowDimesions[1].y / (TileSize / 2); y++){
@@ -113,6 +120,8 @@ int main(int argc, char *argv[]){
 								}
 							}
 						}
+						
+						
 						int YOff = ((WindowPos[1].y + 30));
 						if (RectPenSelect){
 							DrawRectangleLines(RectPenOldX - CameraX , RectPenOldY + CameraY  , GetMouseX() - WindowPos[1].x, GetMouseY() - YOff , RED);
@@ -138,6 +147,8 @@ int main(int argc, char *argv[]){
 									break;
 							}
 						}
+						
+						
 
 					}
 
@@ -221,6 +232,12 @@ int main(int argc, char *argv[]){
 		}
 		else {
 			Delay --;
+		}
+		}
+		else {
+			ClearBackground(BLACK);
+			DrawText("You Do Not have Acess to this Software.." , GetScreenWidth() / 2 - MeasureText("You Do Not have Acess to this Software.." , 20) / 2 , 100 , 20 , WHITE);
+			DrawText("Delete This Software Now" , GetScreenWidth() / 2 - MeasureText("Delete This Software Now" , 20) / 2 , 150 , 20 , WHITE);
 		}
 		EndDrawing();
 	}

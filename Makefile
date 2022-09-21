@@ -16,7 +16,7 @@
   ifeq ($(PLATFORM),linux)
     CC = g++
     exename ?= SLEditor
-    CFLAGS  = -Wall -Wno-missing-braces -s -O3 -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+    CFLAGS  =  -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
   endif
 
   all: $(TARGET)
