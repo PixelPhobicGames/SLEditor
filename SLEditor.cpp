@@ -30,9 +30,17 @@ int main(int argc, char *argv[]){
 
 	char LevelDir[200];
 
+	#ifdef Linux
+	for ( int i = 0 ; i <= strlen(argv[1]) - 11; i ++){
+		LevelDir[i] = argv[1][i];
+	}
+	#endif
+	#ifdef Windows 
 	for ( int i = 0 ; i <= strlen(argv[1]) - 13; i ++){
 		LevelDir[i] = argv[1][i];
 	}
+	#endif
+
 	LevelDir[strlen(LevelDir) - 2] = '\0';
 
 	EditorLoadTiles(LevelDir);
@@ -123,6 +131,7 @@ int main(int argc, char *argv[]){
 						
 						
 						int YOff = ((WindowPos[1].y + 30));
+						
 						if (RectPenSelect){
 							DrawRectangleLines(RectPenOldX - CameraX , RectPenOldY + CameraY  , GetMouseX() - WindowPos[1].x, GetMouseY() - YOff , RED);
 						}

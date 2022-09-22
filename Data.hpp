@@ -20,8 +20,8 @@ static wchar_t EditorTile = L'1';
 static int Delay = 0;
 
 
-static float CameraX = 0;
-static float CameraY = 0;
+static int CameraX = 0;
+static int CameraY = 0;
 
 static int PenMode = 1;
 
