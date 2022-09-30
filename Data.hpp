@@ -1,12 +1,13 @@
 #include "Gui.hpp"
 
-#define Linux
-
+#define Windows
 
 
 static wstring LevelData;
 
-static float TileSize = 240;
+static char ScriptData[100];
+
+static int TileSize = 240;
 
 static int WorldWidth = 0;
 static int WorldHeight = 0;
@@ -58,6 +59,7 @@ wstring LoadFile(const char *Path){
     OutFile >> Data;
     return Data;
 }
+
 auto PullConfigValue(const char *Path , int ValueIndex){
 
     wstring Data = LoadFile(Path);
@@ -164,7 +166,7 @@ void EditorInit(){
     WindowPos[2].x = 100;
     WindowPos[2].y = 50;
     WindowDimesions[2].x = 200;
-    WindowDimesions[2].y = 500;
+    WindowDimesions[2].y = 235;
 
     WindowDimesions[3].x = 200;
     WindowDimesions[3].y = 100;
@@ -172,14 +174,24 @@ void EditorInit(){
     WindowPos[3].y = 450;
 
     WindowDimesions[4].x = 100;
-    WindowDimesions[4].y = 350;
+    WindowDimesions[4].y = 150;
     WindowPos[4].x = 1000;
     WindowPos[4].y = 50;
 
-    WindowDimesions[5].x = 450;
+    WindowDimesions[5].x = 260;
     WindowDimesions[5].y = 100;
     WindowPos[5].x = 100;
     WindowPos[5].y = 580;
+
+    WindowDimesions[6].x = 130;
+    WindowDimesions[6].y = 100;
+    WindowPos[6].x = 950;
+    WindowPos[6].y = 300;
+
+    WindowPos[7].x = 1280/2-700/2;
+    WindowPos[7].y = 10;
+    WindowDimesions[7].x = 700;
+    WindowDimesions[7].y = 700;
 }
 
 void EditorLoadTiles(char LevelDir[200]){
@@ -201,5 +213,7 @@ void EditorLoadTiles(char LevelDir[200]){
     #endif
     TileSize = PullConfigValue(FormatText("%sConfig/TileSize.slconf",LevelDir) , 0);
     BackgroundCount = PullConfigValue(FormatText("%sConfig/Background.slconf",LevelDir), 0);
+    //ScriptData = LoadFileS(FormatText("%sScript/Main.ps" , LevelDir));
+
 
 }

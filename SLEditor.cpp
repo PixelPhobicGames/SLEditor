@@ -9,9 +9,11 @@ int main(int argc, char *argv[]){
 	EditorInit();
 
 	if (argc != 2){
+
 		#ifdef Windows
 		LevelData = LoadFile("C:/Editor/Blank/TileData.pak");
 		#endif
+
 		#ifdef Linux
 		LevelData = LoadFile("/home/ewan/Editor/Blank/TileData.pak");
 		#endif
@@ -35,6 +37,7 @@ int main(int argc, char *argv[]){
 		LevelDir[i] = argv[1][i];
 	}
 	#endif
+
 	#ifdef Windows 
 	for ( int i = 0 ; i <= strlen(argv[1]) - 13; i ++){
 		LevelDir[i] = argv[1][i];
@@ -72,6 +75,11 @@ int main(int argc, char *argv[]){
 				case 0:
 
 					if (CreateButton(1 , PosCenter , 200 , "Create New Map")){
+						for (int i = 0 ; i <= LevelData.size() ; i ++){
+							if (LevelData[i] != L'0' && LevelData[i] != L'|'){
+								LevelData[i] = L'0';
+							}
+						}
 						EditorData.SceneId = 1;
 					}
 
@@ -84,6 +92,17 @@ int main(int argc, char *argv[]){
 						EditorData.SceneId = 2;
 					}
 					break;
+
+				case 2:
+					if (CreateCustomButton(GetScreenWidth() / 2 - 150 , 200 , 1 , "Hi Mode"))SetTargetFPS(120);
+					if (CreateCustomButton(GetScreenWidth() / 2 - 50 , 200 , 1 , "Nr Mode"))SetTargetFPS(60);
+					if (CreateCustomButton(GetScreenWidth() / 2 + 50 , 200 , 1 , "Lo Mode"))SetTargetFPS(30);
+
+					if (CreateCustomButton(GetScreenWidth() / 2 - 50 , 500 , 1 , "Back")){
+						EditorData.SceneId = 0;
+						Delay = 15;
+					}
+					break;
 				
 				case 1:
 					DrawTextEx(EditorData.EditorFont, "World Editor", {1280 / 2 - MeasureTextEx(EditorData.EditorFont, "WorldEditor" , 18 , 2).x / 2, 8}, 18, 2, WHITE);
@@ -91,8 +110,8 @@ int main(int argc, char *argv[]){
 					if (CreateBlankWindow(2 , 1 , "Editor")){
 						
 						DrawTexture(EditorTiles.Background0 , WindowPos[1].x,WindowPos[1].y + 35,WHITE);
-						for (int x = CameraX / (TileSize / 2 - 1); x <= CameraX / (TileSize / 2 ) + WindowDimesions[1].x / (TileSize / 2) ; x++){
-							for (int y =  (CameraY / (TileSize / 2) - 1) * -1; y <= -1 * (CameraY / (TileSize / 2) ) + WindowDimesions[1].y / (TileSize / 2); y++){
+						for (int x = (CameraX / (TileSize / 2 - 1)) - 5; x <= CameraX / (TileSize / 2 ) + WindowDimesions[1].x / (TileSize / 2) ; x++){
+							for (int y =  (CameraY / (TileSize / 2)) * -1; y <= -1 * (CameraY / (TileSize / 2) ) + WindowDimesions[1].y / (TileSize / 2); y++){
 								switch (LevelData[y * WorldWidth + x])
 								{
 									case L'1':
@@ -156,7 +175,7 @@ int main(int argc, char *argv[]){
 									break;
 							}
 						}
-						
+						CreateBlankWindowHeader(2 , 1 , "Editor");
 						
 
 					}
@@ -178,6 +197,12 @@ int main(int argc, char *argv[]){
 					if (CreateCustomButton(WindowPos[2].x, WindowPos[2].y + 35 + 100 , .5 , "Tile 8"))EditorTile = L'8';
 					if (CreateCustomButton(WindowPos[2].x + 50, WindowPos[2].y + 35 + 100, .5 , "Tile 9"))EditorTile = L'9';
 					if (CreateCustomButton(WindowPos[2].x + 100, WindowPos[2].y + 35 + 100, .5 , "Collision"))EditorTile = L'Z';
+					if (CreateCustomButton(WindowPos[2].x + 150, WindowPos[2].y + 35 + 100, .5 , "Plyr Spwn"))EditorTile = L'%';
+
+					if (CreateCustomButton(WindowPos[2].x, WindowPos[2].y + 35 + 150 , .5 , "Damage T"))EditorTile = L'X';
+					if (CreateCustomButton(WindowPos[2].x + 50, WindowPos[2].y + 35 + 150, .5 , "Transition"))EditorTile = L'T';
+					if (CreateCustomButton(WindowPos[2].x + 100, WindowPos[2].y + 35 + 150, .5 , "Event 1"))EditorTile = L'O';
+					if (CreateCustomButton(WindowPos[2].x + 150, WindowPos[2].y + 35 + 150, .5 , "Event 2"))EditorTile = L'P';
 
 					if (CreateBlankWindow(2 , 3 , "Rend. Settings")){
 						if(CreateCustomButton(WindowPos[3].x, WindowPos[3].y + 35 , .65 , "TileSize +")){
@@ -230,6 +255,37 @@ int main(int argc, char *argv[]){
 							int Random = GetRandomValue(1, 10000);
 							system(FormatText("cp %s C:/Editor/Backups/%i.pak" , argv[1] , Random));
 						}
+						if(CreateCustomButton(WindowPos[5].x + 65 * 3, WindowPos[5].y + 35 , .65 , "Fix File")){
+							for (int i = 0 ; i <= LevelData.size() ; i ++){
+								if (LevelData[i] != L'0' && LevelData[i] != L'|' && LevelData[i] != L'1' && LevelData[i] != L'2' && LevelData[i] != L'3' && LevelData[i] != L'4' && LevelData[i] != L'5' && LevelData[i] != L'6' && LevelData[i] != L'7' && LevelData[i] != L'8' && LevelData[i] != L'9' && LevelData[i] != L'Z' && LevelData[i] != L'X' && LevelData[i] != L']' && LevelData[i] != L'%' && LevelData[i] != L'|'){
+									LevelData[i] = L'0';
+								}
+							}
+						}
+					}
+
+					if (CreateBlankWindow(2 , 6, "Para. Script")){
+						if(CreateCustomButton(WindowPos[6].x, WindowPos[6].y + 35 , .65 , "Editor")){
+							EditorData.SceneId = 4;
+						}
+						if(CreateCustomButton(WindowPos[6].x + 65, WindowPos[6].y + 35 , .65 , "Save")){
+
+						}
+					}
+
+					break;
+
+				case 4:
+					// Script Editor
+					if (CreateBlankWindow(2 , 7, "Para. Script")){
+						DrawRectangle(WindowPos[7].x , WindowPos[7].y + 35 , WindowDimesions[7].x , WindowDimesions[7].y - 35 , BloodRed);
+
+						if(CreateCustomButton( 50, 150 , .65 , "Back")){
+							EditorData.SceneId = 1;
+						}
+
+						
+
 					}
 
 					break;

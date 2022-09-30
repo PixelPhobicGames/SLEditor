@@ -5,6 +5,7 @@
 
 static Color ProGray = {33,33,33,255};
 static Color LightProGray = {66,66,66,255};
+static Color BloodRed = {115, 9, 9,255};
 
 static int PosCenter = 1;
 static int PosRSide = 2;
@@ -111,6 +112,33 @@ bool CreateBlankWindow(float Size , int WindowId , const char *Title ){
     int Y = WindowPos[WindowId].y;
 
     DrawRectangle(X , Y ,  WindowDimesions[WindowId].x, WindowDimesions[WindowId].y, BLACK);
+    DrawRectangle(X , Y ,  WindowDimesions[WindowId].x, 35, LightProGray);
+
+    DrawTextEx(EditorData.EditorFont, Title, {X + (WindowDimesions[WindowId].x / 2 ) - MeasureTextEx(EditorData.EditorFont, Title , 20 , 2).x / 2 , Y + 8  }, 20, 2, WHITE);
+
+    if (IsMouseButtonDown(0) && GetCollision(X , Y ,  WindowDimesions[WindowId].x, WindowDimesions[WindowId].y - (WindowDimesions[WindowId].y - 35) , GetMouseX() , GetMouseY() , 5 , 5 )){
+        if (DraggingWindow){
+            WindowPos[WindowId].x = GetMouseX() - 30;
+            WindowPos[WindowId].y = GetMouseY() - 15;
+            DraggingWindow = false;
+        }
+        else {
+            DraggingWindow = true;
+        }
+    }
+    else {
+        
+    }
+
+    return true;
+
+}
+
+bool CreateBlankWindowHeader(float Size , int WindowId , const char *Title ){
+    int X = WindowPos[WindowId].x;
+    
+    int Y = WindowPos[WindowId].y;
+
     DrawRectangle(X , Y ,  WindowDimesions[WindowId].x, 35, LightProGray);
 
     DrawTextEx(EditorData.EditorFont, Title, {X + (WindowDimesions[WindowId].x / 2 ) - MeasureTextEx(EditorData.EditorFont, Title , 20 , 2).x / 2 , Y + 8  }, 20, 2, WHITE);
